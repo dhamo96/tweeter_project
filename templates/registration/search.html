@@ -1,0 +1,36 @@
+<!-- filepath: d:\tweet_project\tweeter_project\tweeter_project\templates\search_results.html -->
+{% extends 'layout.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h1>Search Results</h1>
+{% if query %}
+    <p>Showing results for: <strong>{{ query }}</strong></p>
+    {% if tweets %}
+        <div class="container">
+            <div class="row">
+                {% for tweet in tweets %}
+                <div class="col">
+                    <div class="card bg-dark border border-secondary"  style="width: 20rem;">
+                        <img src="{{tweet.photo.url}}" class="card-img-top mt-3" alt="...">
+                        <div class="card-body bg-dark">
+                            <h5 class="card-title">{{tweet.user.username}}</h5>
+                            <p class="card-text">{{tweet.text}}</p>
+                            {% if tweet.user == user %}
+                            <a href="{% url 'edit_tweet' tweet.id %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'delete_tweet' tweet.id %}" class="btn btn-danger">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>No tweets found matching your search.</p>
+    {% endif %}
+{% else %}
+    <p>Please enter a search term.</p>
+{% endif %}
+{% endblock %}
